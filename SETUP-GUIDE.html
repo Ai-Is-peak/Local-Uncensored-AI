@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Local AI – Oppsett (Windows, Firmaportal)</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121924;
+      --text: #e8eef7;
+      --muted: #b6c2d3;
+      --accent: #5aa7ff;
+      --border: #243044;
+      --codebg: #0f1622;
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 28px 16px 64px; }
+    header {
+      padding: 18px 18px;
+      background: linear-gradient(180deg, rgba(90,167,255,.15), rgba(90,167,255,0));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    p { margin: 10px 0; color: var(--muted); }
+    .card {
+      margin-top: 14px;
+      padding: 18px 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    h2 { margin: 0 0 10px; font-size: 18px; }
+    h3 { margin: 14px 0 8px; font-size: 15px; color: var(--text); }
+    ul, ol { margin: 8px 0 0 18px; color: var(--muted); }
+    li { margin: 6px 0; }
+    .note {
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px;
+      background: rgba(90,167,255,.08);
+      border-radius: 10px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+    .label { color: var(--text); font-weight: 600; }
+    .cmd {
+      margin-top: 8px;
+      padding: 12px 12px;
+      background: var(--codebg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      color: var(--text);
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .btnrow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    button {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: #0f1622;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover { border-color: rgba(90,167,255,.6); }
+    .small { font-size: 13px; color: var(--muted); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer { margin-top: 16px; color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Local AI – Oppsett (Windows, Firmaportal)</h1>
+      <p>
+        Denne siden forklarer hvordan du installerer det som trengs for å kjøre Local AI på en skole-PC.
+        Oppsettet krever ikke admin-rettigheter, og etter installasjon kan AI-en brukes uten internett.
+      </p>
+      <div class="note">
+        <span class="label">Viktig:</span>
+        Hvis dere bruker Firmaportal for Python, får du ofte ikke valg om PATH. Hvis du får valget
+        <em>“Add Python to PATH”</em>, er det trygt å la det være <strong>AV</strong>. Programmet fungerer uansett.
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>Forutsetninger</h2>
+      <ul>
+        <li>Windows-PC</li>
+        <li>Python installert via Firmaportal</li>
+        <li>Internett kun for installasjon av pakker (én gang)</li>
+        <li>Anbefalt: minst 6–8 GB RAM</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Steg 1: Installer Python via Firmaportal</h2>
+      <ol>
+        <li>Åpne <strong>Firmaportal</strong></li>
+        <li>Finn <strong>Python 3.12</strong> (eller nyere 3.x-versjon)</li>
+        <li>Klikk <strong>Installer</strong></li>
+        <li>Vent til installasjonen er ferdig</li>
+      </ol>
+      <div class="note">
+        <span class="label">Om “Add Python to PATH”:</span>
+        Hvis du får dette valget, la det gjerne være <strong>AV</strong>. Det er ikke nødvendig for å bruke Local AI.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Steg 2: Åpne PowerShell</h2>
+      <ol>
+        <li>Trykk <strong>Windows-tasten</strong></li>
+        <li>Skriv <strong>PowerShell</strong></li>
+        <li>Trykk <strong>Enter</strong></li>
+      </ol>
+      <p class="small">Du får et blått vindu med tekst. Det er normalt.</p>
+    </section>
+
+    <section class="card">
+      <h2>Steg 3: Installer nødvendige Python-pakker</h2>
+      <p>Kjør kommandoene under <strong>én og én</strong> i PowerShell.</p>
+
+      <h3>Installer Torch</h3>
+      <div class="cmd" id="cmdTorch">pip install --user torch</div>
+      <div class="btnrow">
+        <button onclick="copyCmd('cmdTorch')">Kopier kommando</button>
+      </div>
+
+      <h3>Installer Transformers</h3>
+      <div class="cmd" id="cmdTransformers">pip install --user transformers</div>
+      <div class="btnrow">
+        <button onclick="copyCmd('cmdTransformers')">Kopier kommando</button>
+      </div>
+
+      <div class="note">
+        <span class="label">Tips:</span>
+        Hvis PowerShell sier at <em>pip</em> ikke finnes, lukk PowerShell og åpne det igjen. Prøv på nytt.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Steg 4: Start Local AI</h2>
+      <ol>
+        <li>Åpne mappen <strong>LocalAI</strong></li>
+        <li>Dobbeltklikk på filen <strong>LocalAI_GUI.py</strong></li>
+      </ol>
+      <p class="small">Du trenger ikke PowerShell for å starte programmet etter at pakkene er installert.</p>
+    </section>
+
+    <section class="card">
+      <h2>Bruk</h2>
+      <ol>
+        <li>Velg modell øverst (for eksempel <strong>TinyLlama Math</strong>)</li>
+        <li>Klikk <strong>Load model</strong></li>
+        <li>Skriv et spørsmål og trykk <strong>Send</strong></li>
+      </ol>
+      <p class="small">Eksempler: “Hva er (-5/4) - (-5/10)?”, “Forklar brøkregning kort”.</p>
+    </section>
+
+    <section class="card">
+      <h2>Lagring og lasting av chat</h2>
+      <ul>
+        <li><strong>Save chat</strong> lagrer samtalen som en JSON-fil</li>
+        <li><strong>Load chat</strong> åpner en tidligere lagret samtale</li>
+        <li>Når du lukker programmet, kan du bli spurt om å lagre hvis chatten ikke er lagret</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Feilsøking</h2>
+      <ul>
+        <li>Kontroller at Python faktisk er installert via Firmaportal</li>
+        <li>Lukk og åpne PowerShell på nytt hvis installasjonen feiler</li>
+        <li>Start PC-en på nytt hvis noe henger</li>
+        <li>Sjekk at modell-mappene ligger i samme mappe som <code>LocalAI_GUI.py</code></li>
+      </ul>
+    </section>
+
+    <footer>
+      Denne HTML-filen kan åpnes direkte i nettleser. Den gjør ingen endringer på PC-en.
+    </footer>
+  </div>
+
+  <script>
+    function copyCmd(id) {
+      const el = document.getElementById(id);
+      const text = el.innerText.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Kommando kopiert.");
+      }).catch(() => {
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        alert("Kommando kopiert.");
+      });
+    }
+  </script>
+</body>
+</html>
